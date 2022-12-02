@@ -1,0 +1,89 @@
+
+POST http://localhost:3000/api/dashboards/db
+Accept: application/json
+Content-Type : application/json
+
+{
+    "dashboard": 
+    {
+        "id": null, 
+        "uid" : null,
+        "title": "New Dashboard 3", 
+        "tags": [], 
+        "timezone": "browser", 
+        "version": 1, 
+        "schemaVersion": 37,
+        "version": 0,
+        "refresh": "25s",
+        
+        "editable": true, 
+        "fiscalYearStartMonth": 0, 
+        "graphTooltip": 0, 
+        "links": [], 
+        "liveNow": true, 
+        "panels": [], 
+        "style": "dark", 
+        "time": 
+        {
+            "from": "now-6h", 
+            "to": "now"
+        }, 
+        "templating": 
+        {
+            "list": []
+        }, 
+        "timepicker": {}, 
+        "weekStart": "", 
+
+       
+    },
+    "message": "Made changes to 333",
+    "overwrite": false
+}
+
+
+
+####
+
+POST http://localhost:3000/api/dashboards/db
+Accept: application/json
+Content-Type: application/json
+
+{
+  "dashboard": 
+  {
+    "id": null,
+    "uid": null,
+    "title": "Production Overview",
+    "tags": [ "templated" ],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "25s"
+  },
+  "message": "Made changes to xyz",
+  "overwrite": false
+}
+
+
+###
+
+
+"editable": true, 
+ "fiscalYearStartMonth": 0, 
+        "graphTooltip": 0, 
+        "links": [], 
+        "liveNow": False, 
+        "panels": [], 
+        "style": dark, 
+        "time": 
+        {
+            "from": "now-6h", 
+            "to": "now"
+        }, 
+        "templating": 
+        {
+            "list": []
+        }, 
+        "timepicker": {}, 
+        "weekStart": "", 

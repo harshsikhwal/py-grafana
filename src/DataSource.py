@@ -1,4 +1,5 @@
 import json
+import requests
 
 class Datasource:
     """A class that stores the DataSource data"""
@@ -82,3 +83,56 @@ class Datasource:
     def dict_to_obj(self, j):
         # TODO if API returns something extra, how will that be handled?
         self.__dict__ = json.loads(j)
+
+class DataSourceAPI(object):
+
+    def __init__(self, grafana):
+        self._grafana = grafana
+
+    def add_datasource(self, datasource):
+        slug = "/api/datasources"
+        url = self._grafana.Host + slug
+
+        headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
+        if self._grafana.Authorization != "":
+            headers["Authorization"] = self._grafana.Authorization
+        if self._grafana.Authorization != "":
+            headers["Authorization"] = self._grafana.Authorization
+        response = requests.post(url, data=datasource.to_json(), headers=headers, verify=False)
+
+        # TODO: add response error handling
+
+        if response.status_code == 200:
+            datasource.json_to_obj(response.json())
+            self._grafana.Datasource[datasource.name] = datasource
+
+    def delete_datasource(self, datasource_name="", datasource_id="", datasource_uid=""):
+
+        slug = "/api/datasources/"
+        if datasource_id != "":
+            slug = slug + datasource_id
+            for datasource in self._grafana.Datasources:
+                if datasource.id == datasource_id:
+                    datasource_name = datasource.name
+                    break
+        elif datasource_name != "":
+            slug = slug + "name/" + datasource_name
+        elif datasource_uid != "":
+            slug = slug + "uid/" + datasource_uid
+            for datasource in self._grafana.Datasources:
+                if datasource.uid == datasource_uid:
+                    datasource_name = datasource.name
+                    break
+        else:
+            return
+
+        url = self._grafana.Host + slug
+        headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
+        if self._grafana.Authorization != "":
+            headers["Authorization"] = self._grafana.Authorization
+        response = requests.delete(url, headers=headers, verify=False)
+        # TODO: add error handling
+
+        if response.status_code == 200:
+            del self._grafana.Datasources[datasource_name]
+

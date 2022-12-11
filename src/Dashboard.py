@@ -1,5 +1,5 @@
 import json
-import Panel
+import requests
 
 class Dashboard:
     """A class that stores the dashboard data"""
@@ -146,3 +146,52 @@ class Dashboard:
         "version": 1,
         "weekStart": ""
     """
+
+class DashboardAPI(object):
+
+    def __init__(self, grafana):
+        self._grafana = grafana
+
+    def add_dashboard(self, dashboard, message, overwrite=False):
+
+        slug = "/api/dashboards/db"
+        url = self._grafana.Host + slug
+
+        commit_json = {"dashboard": dashboard.to_json()}
+        commit_json["message"] = message
+        commit_json["overwrite"] = overwrite
+
+        print(commit_json)
+
+        headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
+        if self._grafana.Authorization != "":
+            headers["Authorization"] = self._grafana.Authorization
+        response = requests.post(url, data=commit_json, headers=headers, verify=False)
+        # TODO: add error handling
+
+        if response.status_code == 200:
+            dashboard_json = response.json()
+            """
+            {
+              "id": 7,
+              "slug": "new-dashboard-4",
+              "status": "success",
+              "uid": "bEdjeXO4k",
+              "url": "/d/bEdjeXO4k/new-dashboard-4",
+              "version": 1
+            }
+            """
+            if "id" in dashboard_json:
+                dashboard.id = dashboard_json["id"]
+
+            if "slug" in dashboard_json:
+                dashboard.slug = dashboard_json["slug"]
+
+            if "uid" in dashboard_json:
+                dashboard.uid = dashboard_json["uid"]
+
+            if "url" in dashboard_json:
+                dashboard.url = dashboard_json["url"]
+
+            if "version" in dashboard_json:
+                dashboard.version = dashboard_json["version"]

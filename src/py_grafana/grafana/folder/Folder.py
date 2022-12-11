@@ -1,7 +1,9 @@
 import json
 import requests
+from py_grafana.base import Base
 
-class Folder:
+
+class Folder(object):
     """A class that stores the Folder data."""
     def __init__(self, title, uid=None):
         """
@@ -53,21 +55,22 @@ class Folder:
         "version": 1
     """
 
-class FolderAPI(object):
 
-    def __init__(self, grafana):
-        self._grafana = grafana
+class FolderAPI(Base):
+
+    def __init__(self, parent):
+        super(FolderAPI, self).__init__(parent)
 
     def create_folder(self, folder):
         slug = "/api/folders"
-        url = self._grafana.Host + slug
+        url = self._connection.host + slug
 
         commit_json = {"uid": folder.uid, "title": folder.title}
         print(commit_json)
 
         headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
-        if self._grafana.Authorization != "":
-            headers["Authorization"] = self._grafana.Authorization
+        if self._parent.Authorization != "":
+            headers["Authorization"] = self._parent.Authorization
         response = requests.post(url, data=json.dumps(commit_json), headers=headers)
 
         # TODO: add response error handling
@@ -124,7 +127,7 @@ class FolderAPI(object):
             if "version" in folder_json:
                 folder.version = folder_json["version"]
 
-            self._grafana.Folders[folder.title] = folder
+            self._parent.Folders[folder.title] = folder
             return folder
 
         # add more codes:
@@ -137,28 +140,28 @@ class FolderAPI(object):
         """
 
     def delete_folder(self, folder_name):
-        if folder_name in self._grafana.Folders:
-            folder = self._grafana.Folders[folder_name]
+        if folder_name in self._parent.Folders:
+            folder = self._parent.Folders[folder_name]
             # get the slug
             slug = folder.url
-            url = self._grafana.Host + slug
+            url = self._parent.Host + slug
             headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
-            if self._grafana.Authorization != "":
-                headers["Authorization"] = self._grafana.Authorization
+            if self._parent.Authorization != "":
+                headers["Authorization"] = self._parent.Authorization
             response = requests.delete(url, headers=headers, verify=False)
             # TODO: add error handling
 
             if response.status_code == 200:
                 print("Folder deleted successfully!")
-                del self._grafana.Folders[folder_name]
+                del self._parent.Folders[folder_name]
 
     def get_folder_by_uid(self, folder):
 
         slug = "/api/folders/"
-        url = self._grafana.Host + slug + folder.uid
+        url = self._parent.Host + slug + folder.uid
         headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
-        if self._grafana.Authorization != "":
-            headers["Authorization"] = self._grafana.Authorization
+        if self._parent.Authorization != "":
+            headers["Authorization"] = self._parent.Authorization
         response = requests.get(url, headers=headers, verify=False)
 
         # TODO: add response error handling
@@ -232,11 +235,11 @@ class FolderAPI(object):
     def get_all_folders(self):
         # TODO need a way to retrieve General Folder
         slug = "/api/folders"
-        url = self._grafana.Host + slug
+        url = self._connection.host + slug
 
         headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
-        if self._grafana.Authorization != "":
-            headers["Authorization"] = self._grafana.Authorization
+        if self._parent.Authorization != "":
+            headers["Authorization"] = self._parent.Authorization
         response = requests.get(url, headers=headers, verify=False)
 
         if response.status_code == 200:

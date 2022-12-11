@@ -1,6 +1,7 @@
 import json
 import requests
 
+
 class Dashboard:
     """A class that stores the dashboard data"""
 

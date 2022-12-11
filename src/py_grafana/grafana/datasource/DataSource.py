@@ -1,6 +1,7 @@
 import json
 import requests
 
+
 class Datasource:
     """A class that stores the DataSource data"""
     def __init__(self):
@@ -83,6 +84,7 @@ class Datasource:
     def dict_to_obj(self, j):
         # TODO if API returns something extra, how will that be handled?
         self.__dict__ = json.loads(j)
+
 
 class DataSourceAPI(object):
 

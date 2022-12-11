@@ -23,3 +23,19 @@ class Base(object):
         - obj: The parent object of the current object or None if there is no parent for this object
         """
         return self._parent
+
+    def _create(self, url: str, payload: dict) -> dict:
+        """
+        This function basically creates a new object
+        :param url: url of the object you want to create
+        :param payload: properties of the object you want to create
+        :return: response json
+        """
+        return self._connection.create(url, payload)
+
+    def _remove(self, url: str):
+        """
+        This functions basically removes an exsisting object
+        :param url:
+        """
+        self._connection.delete(url)

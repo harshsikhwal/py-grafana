@@ -42,7 +42,7 @@ class Base(object):
         """
         return self._connection.delete(url_slug, token)
         
-    def _fetch(self, url_slug: str, token: None):
+    def _fetch(self, url_slug: str, token=None):
         """
         This functions is used for GET operations
         :param url_slug: url_slug of the object you want to get
@@ -50,7 +50,7 @@ class Base(object):
         """
         return self._connection.fetch(url_slug, token)
 
-    def _put(self, url_slug: str, payload: dict, token: None) -> dict:
+    def _put(self, url_slug: str, payload: dict, token=None) -> dict:
         """
         A wrapper over PUT
         :param url_slug: url_slug of the object you want to create

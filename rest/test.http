@@ -68,22 +68,46 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3000/api/folders
+Accept: application/json
+Content-Type: application/json
 
-"editable": true, 
- "fiscalYearStartMonth": 0, 
-        "graphTooltip": 0, 
-        "links": [], 
-        "liveNow": False, 
-        "panels": [], 
-        "style": dark, 
-        "time": 
-        {
-            "from": "now-6h", 
-            "to": "now"
-        }, 
-        "templating": 
-        {
-            "list": []
-        }, 
-        "timepicker": {}, 
-        "weekStart": "", 
+{
+  "uid": "a",
+  "title": "a"
+}
+
+
+###
+
+GET http://localhost:3000/api/admin/settings
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+
+###
+
+GET http://localhost:3000/api/folders
+Accept: application/json
+Content-Type: application/json
+
+
+###
+
+GET http://localhost:3000/api/auth/keys
+Accept: application/json
+Content-Type: application/json
+
+
+###
+
+POST http://localhost:3000/api/auth/keys
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "kk",
+  "role": "Admin",
+  "secondsToLive": 86400
+}

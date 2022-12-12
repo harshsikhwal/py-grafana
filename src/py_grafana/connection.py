@@ -29,9 +29,9 @@ class Connection(object):
             return response.json()
         else:
             # TODO: need more finer exceptions
-            return None
+            # return None
             # maybe return None
-            # raise Exception("error in rest operation " + op_type)
+            raise Exception("error in rest operation " + op_type)
 
     def create(self, slug, payload, token=None):
         headers = self.headers.copy()
@@ -63,12 +63,10 @@ class Connection(object):
 
         return self.process_response(response, "PUT")
 
-
     def patch(self, slug, payload, token=None):
         headers = self.headers.copy()
         if token is not None:
             headers["Authorization"] = token.get_token_str()
         response = requests.patch(self.construct_url(slug), data=json.dumps(payload), headers=headers)
-        
-        return self.process_response(response, "PATCH")
 
+        return self.process_response(response, "PATCH")

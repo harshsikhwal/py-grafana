@@ -29,9 +29,8 @@ class Connection(object):
             return response.json()
         else:
             # TODO: need more finer exceptions
-            # return None
-            # maybe return None
-            raise Exception("error in rest operation " + op_type)
+            print(response.content)
+            raise Exception("Rest operation %s failed with status code %s" % (op_type, str(response.status_code)))
 
     def create(self, slug, payload, token=None):
         headers = self.headers.copy()

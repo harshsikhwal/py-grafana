@@ -40,7 +40,7 @@ class Base(object):
         :param url_slug: url_slug of the object you want to delete
         :param token: the token class passes: BasicToken, BearerToken
         """
-        self._connection.delete(url_slug, token)
+        return self._connection.delete(url_slug, token)
         
     def _fetch(self, url_slug: str, token: None):
         """
@@ -48,15 +48,24 @@ class Base(object):
         :param url_slug: url_slug of the object you want to get
         :param token: the token class passes: BasicToken, BearerToken
         """
-        self._connection.fetch(url_slug, token)
+        return self._connection.fetch(url_slug, token)
 
-    def _update(self, url_slug: str, payload: dict, token: None, operation: str) -> dict:
+    def _put(self, url_slug: str, payload: dict, token: None) -> dict:
         """
-        This function creates a new object
+        A wrapper over PUT
         :param url_slug: url_slug of the object you want to create
         :param payload: properties of the object you want to create
         :param token: the token class passes: BasicToken, BearerToken
-        :param operation: Either PUT, PATCH, POST.
         :return: response json
         """
-        return self._connection.create(url_slug, payload, token, operation)
+        return self._connection.put(url_slug, payload, token)
+
+    def _patch(self, url_slug: str, payload: dict, token: None) -> dict:
+        """
+        A wrapper over PATCH
+        :param url_slug: url_slug of the object you want to create
+        :param payload: properties of the object you want to create
+        :param token: the token class passes: BasicToken, BearerToken
+        :return: response json
+        """
+        return self._connection.patch(url_slug, payload, token)

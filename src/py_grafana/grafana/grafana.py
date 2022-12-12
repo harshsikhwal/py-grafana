@@ -13,6 +13,7 @@ class Grafana(Base):
         super(Grafana, self).__init__(None)
         self._folders = {}
         self._data_sources = {}
+        self._admin_api_ = None
 
     @property
     def admin_api(self) -> AdminAPI:
@@ -20,7 +21,9 @@ class Grafana(Base):
         Create the Admin API instance.
         :return: admin api
         """
-        return AdminAPI(self)
+        if self._admin_api_ is None:
+            self._admin_api_ = AdminAPI(self)
+        return self._admin_api_
 
     @property
     def authentication_api(self) -> AuthenticationAPI:

@@ -38,22 +38,22 @@ class User:
         self.lastSeenAt = None
         self.lastSeenAtAge = None
 
-    def json_to_obj(self, user_json):
-        self.id = user_json["id"]
-        self.email = user_json["email"]
-        self.name = user_json["name"]
-        self.login = user_json["login"]
-        self.theme = user_json["theme"]
-        self.orgId = user_json["orgId"]
-        self.isGrafanaAdmin = user_json["isGrafanaAdmin"]
-        self.isDisabled = user_json["isDisabled"]
-        self.isExternal = user_json["isExternal"]
-        self.authLabels = user_json["authLabels"]
-        self.updatedAt = user_json["updatedAt"]
-        self.createdAt = user_json["createdAt"]
-        self.avatarUrl = user_json["avatarUrl"]
+    def dict_to_obj(self, user_dict):
+        self.id = user_dict["id"]
+        self.email = user_dict["email"]
+        self.name = user_dict["name"]
+        self.login = user_dict["login"]
+        self.theme = user_dict["theme"]
+        self.orgId = user_dict["orgId"]
+        self.isGrafanaAdmin = user_dict["isGrafanaAdmin"]
+        self.isDisabled = user_dict["isDisabled"]
+        self.isExternal = user_dict["isExternal"]
+        self.authLabels = user_dict["authLabels"]
+        self.updatedAt = user_dict["updatedAt"]
+        self.createdAt = user_dict["createdAt"]
+        self.avatarUrl = user_dict["avatarUrl"]
 
-    def to_json(self):
+    def to_dict(self):
         user_json = {}
         if self.id is not None:
             user_json["id"] = self.id

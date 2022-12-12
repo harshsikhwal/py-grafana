@@ -24,18 +24,39 @@ class Base(object):
         """
         return self._parent
 
-    def _create(self, url: str, payload: dict) -> dict:
+    def _create(self, url_slug: str, payload: dict, token: None) -> dict:
         """
-        This function basically creates a new object
-        :param url: url of the object you want to create
+        This function creates a new object
+        :param url_slug: url_slug of the object you want to create
         :param payload: properties of the object you want to create
+        :param token: the token class passes: BasicToken, BearerToken
         :return: response json
         """
-        return self._connection.create(url, payload)
+        return self._connection.create(url_slug, payload, token)
 
-    def _remove(self, url: str):
+    def _remove(self, url_slug: str, token: None):
         """
-        This functions basically removes an exsisting object
-        :param url:
+        This functions deletes an existing object
+        :param url_slug: url_slug of the object you want to delete
+        :param token: the token class passes: BasicToken, BearerToken
         """
-        self._connection.delete(url)
+        self._connection.delete(url_slug, token)
+        
+    def _fetch(self, url_slug: str, token: None):
+        """
+        This functions is used for GET operations
+        :param url_slug: url_slug of the object you want to get
+        :param token: the token class passes: BasicToken, BearerToken
+        """
+        self._connection.fetch(url_slug, token)
+
+    def _update(self, url_slug: str, payload: dict, token: None, operation: str) -> dict:
+        """
+        This function creates a new object
+        :param url_slug: url_slug of the object you want to create
+        :param payload: properties of the object you want to create
+        :param token: the token class passes: BasicToken, BearerToken
+        :param operation: Either PUT, PATCH, POST.
+        :return: response json
+        """
+        return self._connection.create(url_slug, payload, token, operation)

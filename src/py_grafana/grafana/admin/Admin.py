@@ -1,5 +1,6 @@
 from py_grafana.base import Base
 
+
 class AdminAPI(Base):
     def __init__(self, parent):
         super(AdminAPI, self).__init__(parent)
@@ -35,17 +36,20 @@ class AdminAPI(Base):
     def create_global_user(self, user):
         # POST /api/admin/users
         slug = "/api/admin/users"
-        user_dict = self._connection.create(slug, user.obj_to_dict(), token=self.basic_token)
+
+        user_dict = self._create(slug, user.obj_to_dict(), token=self.basic_token)
         if user_dict is not None:
             user.dict_to_obj(user_dict)
             return user
         else:
             return None
 
+
     def change_user_password(self, user):
         # PUT /api/admin/users/:id/password
         slug = "/api/admin/users/" + str(user.id) + "/password"
         password = {"password": user.password}
+
         return self._put(slug, password, token=self.basic_token)
 
     def change_user_permissions_by_id(self, id, permissions):

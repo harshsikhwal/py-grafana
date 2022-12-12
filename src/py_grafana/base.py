@@ -24,7 +24,7 @@ class Base(object):
         """
         return self._parent
 
-    def _create(self, url_slug: str, payload: dict, token: None) -> dict:
+    def _create(self, url_slug: str, payload: dict, token=None) -> dict:
         """
         This function creates a new object
         :param url_slug: url_slug of the object you want to create
@@ -34,7 +34,7 @@ class Base(object):
         """
         return self._connection.create(url_slug, payload, token)
 
-    def _remove(self, url_slug: str, token: None):
+    def _remove(self, url_slug: str, token=None):
         """
         This functions deletes an existing object
         :param url_slug: url_slug of the object you want to delete
@@ -60,7 +60,7 @@ class Base(object):
         """
         return self._connection.put(url_slug, payload, token)
 
-    def _patch(self, url_slug: str, payload: dict, token: None) -> dict:
+    def _patch(self, url_slug: str, payload: dict, token=None) -> dict:
         """
         A wrapper over PATCH
         :param url_slug: url_slug of the object you want to create

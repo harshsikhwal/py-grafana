@@ -3,9 +3,11 @@ from py_grafana import Grafana, Folder, Authentication, Admin
 grafana = Grafana().connect("localhost", 3000)
 
 
-# folder = Folder(title="nf2", uid="nf2")
+folder = Folder(title="nf2", uid="nf2")
 
-# folder = grafana.folders_api.create_folder(folder)
+folder = grafana.folders_api.create_folder(folder)
+
+# folder = grafana.folders_api.get_all_folders()
 
 # folder = grafana.folders_api().create_folder_by_name("new folder")
 

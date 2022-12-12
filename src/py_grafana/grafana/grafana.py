@@ -18,6 +18,7 @@ class Grafana(Base):
         self._organization_api = None
         self._user_api = None
         self._team_api = None
+        self._folder_api_ = None
 
     @property
     def admin_api(self) -> AdminAPI:
@@ -51,6 +52,8 @@ class Grafana(Base):
         Create the Folder API instance.
         :return: folder api
         """
+        if self._folder_api_ is None:
+            self._folder_api_ = AdminAPI(self)
         return FolderAPI(self)
 
     @property
@@ -83,11 +86,16 @@ class Grafana(Base):
             self._user_api = UserAPI(self)
         return self._user_api
 
+    @property
+    def folders(self):
+        return self._folders
+
     def connect(self, ip: str, port: int, auth=None):
         """
         Creates a connection with the grafana server
         :param ip: ip/hostname of the grafana server
         :param port: port at which the grafana server is running
+        :param auth: authentication to be used by Connecting
         :return: returns Grafana object
         """
         self._connection = Connection(ip, port, auth)

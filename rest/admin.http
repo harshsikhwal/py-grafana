@@ -1,0 +1,40 @@
+
+### fetch_settings
+
+GET http://localhost:3000/api/admin/settings
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+### update_settings [AUTH.SAML]
+
+PUT http://localhost:3000/api/admin/settings
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "updates": 
+  {
+    "auth.saml": 
+    {
+      "enabled": "true"
+    }
+  }
+}
+
+
+### fetch_grafana_stats
+
+GET http://localhost:3000/api/admin/stats
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+
+### fetch_grafana_usage_report_preview
+
+GET http://localhost:3000/api/admin/usage-report-preview
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=

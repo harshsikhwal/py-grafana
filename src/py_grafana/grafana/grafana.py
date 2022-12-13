@@ -5,7 +5,8 @@ from py_grafana.base import Base
 from py_grafana.connection import Connection
 from py_grafana.grafana.admin.Admin import AdminAPI
 from py_grafana.grafana.authentication.Authentication import AuthenticationAPI
-
+from py_grafana.grafana.organization.Organization import OrganizationAPI
+from py_grafana.grafana.team.Team import TeamAPI
 
 class Grafana(Base):
 
@@ -14,6 +15,9 @@ class Grafana(Base):
         self._folders = {}
         self._data_sources = {}
         self._admin_api_ = None
+        self._organization_api = None
+        self._user_api = None
+        self._team_api = None
         self._folder_api_ = None
 
     @property
@@ -53,12 +57,34 @@ class Grafana(Base):
         return FolderAPI(self)
 
     @property
-    def users_api(self) -> UserAPI:
+    def organization_api(self) -> OrganizationAPI:
         """
         Create the User API instance.
         :return: user api
         """
-        return UserAPI(self)
+        if self._organization_api is None:
+            self._organization_api = OrganizationAPI(self)
+        return self._organization_api
+
+    @property
+    def team_api(self) -> TeamAPI:
+        """
+        Create the User API instance.
+        :return: user api
+        """
+        if self._team_api is None:
+            self._team_api = TeamAPI(self)
+        return self._team_api
+
+    @property
+    def user_api(self) -> UserAPI:
+        """
+        Create the User API instance.
+        :return: user api
+        """
+        if self._user_api is None:
+            self._user_api = UserAPI(self)
+        return self._user_api
 
     @property
     def folders(self):

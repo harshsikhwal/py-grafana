@@ -8,6 +8,7 @@ from py_grafana.grafana.authentication.Authentication import AuthenticationAPI
 from py_grafana.grafana.organization.Organization import OrganizationAPI
 from py_grafana.grafana.team.Team import TeamAPI
 
+
 class Grafana(Base):
 
     def __init__(self):

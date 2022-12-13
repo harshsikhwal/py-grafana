@@ -25,7 +25,6 @@ def test_get_all_folders(grafana):
     assert "unittest" in grafana.folders.keys()
 
 
-@pytest.mark.skip("folder not found")
 @pytest.mark.unittest
 def test_delete_folder(grafana):
     """

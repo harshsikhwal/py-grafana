@@ -61,7 +61,7 @@ class FolderAPI(Base):
     def delete_folder(self, folder_name):
         if folder_name in self.parent.folders.keys():
             folder = self.parent.folders[folder_name]
-            slug = "/api/folders" + folder.uid
+            slug = "/api/folders/" + folder.uid
             self._remove(slug)
             del self.parent.folders[folder_name]
 

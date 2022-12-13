@@ -26,7 +26,8 @@ class Connection(object):
 
     def process_response(self, response, op_type: str):
         if response.status_code == 200:
-            return response.json()
+            if response.content != b'':
+                return response.json()
         else:
             # TODO: need more finer exceptions
             print(response.content)

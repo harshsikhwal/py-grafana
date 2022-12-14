@@ -1,0 +1,108 @@
+@host=http://localhost:3000
+
+### Admin API to create user
+
+### create_global_user
+
+POST {{host}}/api/admin/users
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name":"U1",
+  "email":"u1@graf.com",
+  "login":"u1",
+  "password":"userpassword"
+}
+
+### create_global_user
+
+POST {{host}}/api/admin/users
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name":"u2",
+  "email":"u2@graf.com",
+  "login":"u2",
+  "password":"userpassword"
+}
+
+
+### add_team
+
+POST {{host}}/api/teams
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "MyTestTeam",
+  "email": "email@test.com",
+  "orgId": 2
+}
+
+### fetch_teams
+
+GET {{host}}/api/teams/search
+Accept: application/json
+Content-Type : application/json
+
+### get_team_by_id
+
+GET {{host}}/api/teams/1
+Accept: application/json
+Content-Type: application/json
+
+
+### delete_team
+
+DELETE {{host}}/api/teams/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+### get_team_members
+
+GET {{host}}/api/teams/2/members
+Accept: application/json
+Content-Type: application/json
+
+
+### add_user_in_team
+
+POST {{host}}/api/teams/2/members
+Accept: application/json
+Content-Type: application/json
+
+{
+  "userId": 8
+}
+
+### delete_user_in_team
+
+DELETE {{host}}/api/teams/2/members/8 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+
+### get_team_preference
+GET {{host}}/api/teams/2/preferences HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+### update_team_preference
+PUT {{host}}/api/teams/2/preferences HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+{
+  "theme": "dark",
+  "homeDashboardId": 39,
+  "timezone": "utc"
+}
+

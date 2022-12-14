@@ -7,9 +7,9 @@ bt = BasicToken("admin", "admin")
 grafana.admin_api.set_token(bt)
 
 user = User()
-user.name = "new user"
-user.email = "user.e@graf.com"
-user.password = "password"
+user.name = "yash sikhwal"
+user.email = "yashsikhwal2000@graf.com"
+user.password = "Baloney1"
 
 user = grafana.admin_api.create_global_user(user)
 

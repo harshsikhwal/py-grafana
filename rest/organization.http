@@ -1,0 +1,59 @@
+@host=http://localhost:3000
+
+### get_current_organization
+
+GET {{host}}/api/org/
+Accept: application/json
+Content-Type : application/json
+
+### get_all_users
+
+GET {{host}}/api/org/users
+Accept: application/json
+Content-Type : application/json
+
+
+### update_user_by_id
+
+GET {{host}}/api/org/users
+Accept: application/json
+Content-Type : application/json
+
+
+### delete_user_by_id
+
+GET {{host}}/api/org/users
+Accept: application/json
+Content-Type : application/json
+
+### update_organization
+
+GET {{host}}/api/org/users
+Accept: application/json
+Content-Type : application/json
+
+### add_user
+
+POST {{host}}/api/org/users
+Accept: application/json
+Content-Type : application/json
+
+{
+    "role": "Editor",
+    "loginOrEmail": "xyz"
+}
+
+
+### ADMIN APIS
+
+### create_organization
+
+POST {{host}}/api/orgs 
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name":"New Org 1",
+  "id" : 0
+}

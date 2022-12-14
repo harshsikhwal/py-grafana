@@ -1,13 +1,18 @@
 @host=http://localhost:3000
 
+### fetch_users
 
-### fetch_settings
-
-GET {{host}}/api/admin/settings
+GET {{host}}/api/users?perpage=10&page=1
 Accept: application/json
 Content-Type : application/json
 Authorization: Basic YWRtaW46YWRtaW4=
 
+### fetch_users
+
+GET {{host}}/api/users
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
 ### update_settings [AUTH.SAML]
 
@@ -43,16 +48,9 @@ Content-Type : application/json
 Authorization: Basic YWRtaW46YWRtaW4=
 
 
-### create_global_user
+### actual_user
 
-POST {{host}}/api/admin/users
+GET {{host}}/api/user HTTP/1.1
 Accept: application/json
-Content-Type : application/json
+Content-Type: application/json
 Authorization: Basic YWRtaW46YWRtaW4=
-
-{
-  "name":"User",
-  "email":"user@graf.com",
-  "login":"user",
-  "password":"userpassword"
-}

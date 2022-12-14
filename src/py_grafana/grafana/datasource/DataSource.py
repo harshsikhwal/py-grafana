@@ -1,36 +1,9 @@
 import json
 import requests
 
-
 class Datasource:
     """A class that stores the DataSource data"""
     def __init__(self):
-        """
-        {
-            "id": 1,
-            "orgId": 1,
-            "uid": "H8joYFVGz"
-            "name": "datasource_elastic",
-            "type": "elasticsearch",
-            "typeLogoUrl": "public/app/plugins/datasource/elasticsearch/img/elasticsearch.svg",
-            "access": "proxy",
-            "url": "http://mydatasource.com",
-            "password": "",
-            "user": "",
-            "database": "grafana-dash",
-            "basicAuth": false,
-            "isDefault": false,
-            "jsonData":
-            {
-                "esVersion": 5,
-                "logLevelField": "",
-                "logMessageField": "",
-                "maxConcurrentShardRequests": 256,
-                "timeField": "@timestamp"
-            },
-            "readOnly": false
-        }
-        """
         self.id = None
         self.orgId = None
         self.uid = None

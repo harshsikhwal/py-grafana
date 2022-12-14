@@ -1,0 +1,21 @@
+@host=http://localhost:3000
+
+
+### get_all_data_sources
+
+GET {{host}}/api/datasources
+Accept: application/json
+Content-Type : application/json
+
+### get single data source by id
+
+GET {{host}}/api/datasources/5
+Accept: application/json
+Content-Type: application/json
+
+### get single data source by uid
+
+GET {{host}}/api/datasources/uid/mpfBDg5Vk
+Accept: application/json
+Content-Type: application/json
+

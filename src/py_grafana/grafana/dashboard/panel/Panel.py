@@ -2,6 +2,7 @@ import json
 from enum import Enum
 import Errors
 
+
 class Panel:
     """A class that stores the panel data"""
     class ThresholdType(Enum):
@@ -122,9 +123,11 @@ class Panel:
         panel_json["transformations"] = self.transformations
         return panel_json
 
+
 class PanelTypes(Enum):
     # TODO add more panel types
     TABLE = "table"
+
 
 class Color(Enum):
     # TODO add more color types

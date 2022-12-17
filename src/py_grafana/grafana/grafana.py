@@ -1,12 +1,14 @@
-from py_grafana.grafana.folder.Folder import FolderAPI
+from py_grafana.grafana.folder.Folder import FolderAPI, Folder
 from py_grafana.grafana.datasource.DataSource import DataSourceAPI
+from py_grafana.grafana.dashboard.Dashboard import DashboardAPI
 from py_grafana.grafana.users.User import UserAPI
-from py_grafana.base import Base
+from py_grafana.baseAPI import Base
 from py_grafana.connection import Connection
 from py_grafana.grafana.admin.Admin import AdminAPI
 from py_grafana.grafana.authentication.Authentication import AuthenticationAPI
 from py_grafana.grafana.organization.Organization import OrganizationAPI
 from py_grafana.grafana.team.Team import TeamAPI
+from typing import Dict
 
 
 class Grafana(Base):
@@ -20,6 +22,7 @@ class Grafana(Base):
         self._user_api = None
         self._team_api = None
         self._folder_api_ = None
+        self._dashboard_api_ = None
 
     @property
     def admin_api(self) -> AdminAPI:
@@ -40,12 +43,25 @@ class Grafana(Base):
         return AuthenticationAPI(self)
 
     @property
+    def dashboard_api(self) -> DashboardAPI:
+        """
+        Create the DashBoard API instance.
+        :return: dashboard api
+        """
+        if self._dashboard_api_ is None:
+            self._dashboard_api_ = DashboardAPI(self)
+        return self._dashboard_api_
+
     def datasource_api(self) -> DataSourceAPI:
         """
         Create the Datasource API instance.
         :return: datasource api
         """
         return DataSourceAPI(self)
+
+    @property
+    def folders(self) -> Dict[str, Folder]:
+        return self._folders
 
     @property
     def folders_api(self) -> FolderAPI:
@@ -86,10 +102,6 @@ class Grafana(Base):
         if self._user_api is None:
             self._user_api = UserAPI(self)
         return self._user_api
-
-    @property
-    def folders(self):
-        return self._folders
 
     def connect(self, ip: str, port: int, auth=None):
         """

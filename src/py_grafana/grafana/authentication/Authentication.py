@@ -1,4 +1,4 @@
-from py_grafana.base import Base
+from py_grafana.baseAPI import Base
 from py_grafana.token import BearerToken
 
 

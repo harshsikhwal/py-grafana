@@ -1,8 +1,10 @@
-import requests
-from py_grafana.base import Base
+from py_grafana.baseAPI import Base
+from py_grafana.base import BaseObj
+from py_grafana.grafana.dashboard.Dashboard import Dashboard
+from typing import Dict
 
 
-class Folder(object):
+class Folder(BaseObj):
     """A class that stores the Folder data."""
     def __init__(self, title, uid=None):
         """
@@ -23,7 +25,15 @@ class Folder(object):
         self.updatedBy = None  # admin
         self.updated = None  # time stamp
         self.version = None  # not true
-        self.Dashboards = {}
+        self._dashboards = {}
+
+    @property
+    def dashboards(self) -> Dict[str, Dashboard]:
+        """
+        returns a map which consists of all the dashboards
+        map[dashboard_title]: dashboard object
+        """
+        return self._dashboards
 
     def dict_to_obj(self, folder_dict):
         """
@@ -45,18 +55,17 @@ class FolderAPI(Base):
         super(FolderAPI, self).__init__(parent)
 
     def create_folder(self, folder):
-        url = "/api/folders"
+        slug = "/api/folders"
 
         payload = {"uid": folder.uid, "title": folder.title}
 
-        folder_json = self._create(url, payload)
+        folder_json = self._create(slug, payload)
         if folder_json is not None:
             folder = Folder(folder_json["title"])
             folder.dict_to_obj(folder_json)
             self.parent._folders[folder.title] = folder
-            return folder
-        else:
-            return None
+
+        return self
 
     def delete_folder(self, folder_name):
         if folder_name in self.parent.folders.keys():
@@ -64,6 +73,8 @@ class FolderAPI(Base):
             slug = "/api/folders/" + folder.uid
             self._remove(slug)
             del self.parent.folders[folder_name]
+
+        return self
 
     def get_folder_by_uid(self, uid: str):
 
@@ -77,14 +88,16 @@ class FolderAPI(Base):
         # overwrite the folder
         self.parent._folders[updated_folder.title] = updated_folder
 
+        return self
+
     def update_folder(self):
         """
-                JSON Body schema:
+        JSON Body schema:
         uid – Provide another unique identifier than stored to change the unique identifier.
         title – The title of the folder.
         version – Provide the current version to be able to update the folder. Not needed if overwrite=true.
         overwrite – Set to true if you want to overwrite existing folder with newer version.
-                :return:
+        :return:
         """
         pass
 
@@ -100,4 +113,6 @@ class FolderAPI(Base):
 
             # TODO Get all the attributes
             self.parent._folders[folder.title] = folder
+
+        return self
 

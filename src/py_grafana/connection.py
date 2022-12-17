@@ -31,7 +31,8 @@ class Connection(object):
         else:
             # TODO: need more finer exceptions
             print(response.content)
-            raise Exception("Rest operation %s failed with status code %s" % (op_type, str(response.status_code)))
+            raise Exception("Rest operation %s failed with status code %s and message %s"
+                            % (op_type, str(response.status_code), str(response.content)))
 
     def create(self, slug, payload, token=None):
         headers = self.headers.copy()

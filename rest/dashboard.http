@@ -1,0 +1,43 @@
+@host=http://localhost:3000
+
+
+### get home dashboard
+
+GET {{host}}/api/dashboards/home
+Accept: application/json
+Content-Type : application/json
+
+### get dashboard with uid
+
+GET {{host}}/api/dashboards/uid/eoIfox5Vz
+Accept: application/json
+Content-Type : application/json
+
+### get dashboard tags
+
+GET {{host}}/api/dashboards/tags
+Accept: application/json
+Content-Type : application/json
+
+### delete dashboard with uid
+
+DELETE {{host}}/api/dashboards/uid/ZGDPmb54z
+Accept: application/json
+Content-Type : application/json
+
+### create dashboard
+
+POST {{host}}/api/dashboards/db
+Accept: application/json
+Content-Type : application/json
+
+{
+  "dashboard": {
+    "title": "new db",
+    "id": null,
+    "refresh": "5s"
+  },
+  "folderId": 7,
+  "message": "Made changes to xyz",
+  "overwrite": false
+}

@@ -9,7 +9,7 @@ Content-Type : application/json
 
 ### get single data source by id
 
-GET {{host}}/api/datasources/5
+GET {{host}}/api/datasources/7
 Accept: application/json
 Content-Type: application/json
 
@@ -19,3 +19,32 @@ GET {{host}}/api/datasources/uid/mpfBDg5Vk
 Accept: application/json
 Content-Type: application/json
 
+### create_datasouorce
+
+POST {{host}}/api/datasources HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "id": null,
+    "uid": null,
+    "orgId": null,
+    "name": "influx_api",
+    "type": "influxdb",
+    "typeName": null,
+    "typeLogoUrl": null,
+    "access": "proxy",
+    "url": "http://localhost:8086",
+    "user": "",
+    "database": "",
+    "basicAuth": true,
+    "isDefault": false,
+    "jsonData": {
+      "defaultBucket": "live view",
+      "httpMethod": "POST",
+      "httpMode": "POST",
+      "organization": "key",
+      "version": "Flux"
+    },
+    "readOnly": false
+  }

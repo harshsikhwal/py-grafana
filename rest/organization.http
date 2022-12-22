@@ -5,46 +5,65 @@
 GET {{host}}/api/org/
 Accept: application/json
 Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
-### get_all_users
-
-GET {{host}}/api/org/users
-Accept: application/json
-Content-Type : application/json
-
-
-### update_user_by_id
+### test_get_all_users_in_current_organization
 
 GET {{host}}/api/org/users
 Accept: application/json
 Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
 
-### delete_user_by_id
 
-GET {{host}}/api/org/users
+
+
+### create a user
+
+### create_global_user
+
+POST {{host}}/api/admin/users
 Accept: application/json
 Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
-### update_organization
-
-GET {{host}}/api/org/users
-Accept: application/json
-Content-Type : application/json
+{
+  "name":"User1",
+  "email":"user1@graf.com",
+  "login":"user1",
+  "password":"userpassword"
+}
 
 ### add_user
 
 POST {{host}}/api/org/users
 Accept: application/json
 Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
 {
-    "role": "Editor",
-    "loginOrEmail": "xyz"
+    "role": "Viewer",
+    "loginOrEmail": "user1@graf.com"
 }
 
 
 ### ADMIN APIS
+
+### get_organization_by_id
+
+GET {{host}}/api/orgs/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+
+### fetch_all_organizations
+
+GET {{host}}/api/orgs
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
 
 ### create_organization
 
@@ -57,3 +76,10 @@ Authorization: Basic YWRtaW46YWRtaW4=
   "name":"New Org 1",
   "id" : 0
 }
+
+### get_users_in_organization
+
+GET {{host}}/api/orgs/1/users
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=

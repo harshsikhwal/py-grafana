@@ -6,10 +6,14 @@ bt = Token.BasicToken("admin", "admin")
 grafana.admin_api.set_token(bt)
 
 user = User()
-user.name = "new user"
-user.email = "new_user@user.com"
+user.name = "test user"
+user.email = "test_user@user.com"
 user.password = "Baloney1"
 
+# create user
 user = grafana.admin_api.create_global_user(user)
 
-print(user.obj_to_dict())
+# delete the user
+grafana.admin_api.delete_user(user)
+
+

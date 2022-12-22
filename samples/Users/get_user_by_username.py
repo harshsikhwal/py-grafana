@@ -3,8 +3,8 @@ from py_grafana import Grafana, Token
 grafana = Grafana().connect("localhost", 3000)
 
 bt = Token.BasicToken("admin", "admin")
-grafana.admin_api.set_token(bt)
+grafana.user_api.set_token(bt)
 
-stats = grafana.admin_api.fetch_grafana_usage_report_preview()
+user = grafana.user_api.get_user_by_username("admin")
 
-print(stats)
+print(user.obj_to_dict())

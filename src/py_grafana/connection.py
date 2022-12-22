@@ -15,7 +15,11 @@ class Connection(object):
         self._host = self._method + self._ip + ":" + str(self._port)
         self.headers = {"Accept": "application/json", 'Content-Type': 'application/json'}
         if auth is not None:
-            self.headers["Authorization"] = auth.get_complete_token_as_string()
+            self.headers["Authorization"] = auth.get_token_str()
+
+    def set_token(self, auth):
+        if auth is not None:
+            self.headers["Authorization"] = auth.get_token_str()
 
     @property
     def host(self) -> str:

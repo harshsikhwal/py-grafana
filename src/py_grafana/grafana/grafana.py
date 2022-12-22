@@ -1,5 +1,5 @@
 from py_grafana.grafana.folder.Folder import FolderAPI
-from py_grafana.grafana.datasource.DataSource import DataSourceAPI
+from py_grafana.grafana.datasource.DataSourceAPI import DataSourceAPI
 from py_grafana.grafana.users.User import UserAPI
 from py_grafana.base import Base
 from py_grafana.connection import Connection
@@ -16,10 +16,13 @@ class Grafana(Base):
         self._folders = {}
         self._data_sources = {}
         self._admin_api_ = None
+        self._datasource_api_ = None
         self._organization_api = None
         self._user_api = None
         self._team_api = None
         self._folder_api_ = None
+        self._authentication_api_ = None
+
 
     @property
     def admin_api(self) -> AdminAPI:
@@ -37,7 +40,9 @@ class Grafana(Base):
         Create the Authentication API instance.
         :return: authentication api
         """
-        return AuthenticationAPI(self)
+        if self._authentication_api_ is None:
+            self._authentication_api_ = AuthenticationAPI(self)
+        return self._authentication_api_
 
     @property
     def datasource_api(self) -> DataSourceAPI:
@@ -45,7 +50,9 @@ class Grafana(Base):
         Create the Datasource API instance.
         :return: datasource api
         """
-        return DataSourceAPI(self)
+        if self._datasource_api_ is None:
+            self._datasource_api_ = DataSourceAPI(self)
+        return self._datasource_api_
 
     @property
     def folders_api(self) -> FolderAPI:
@@ -54,7 +61,7 @@ class Grafana(Base):
         :return: folder api
         """
         if self._folder_api_ is None:
-            self._folder_api_ = AdminAPI(self)
+            self._folder_api_ = FolderAPI(self)
         return FolderAPI(self)
 
     @property

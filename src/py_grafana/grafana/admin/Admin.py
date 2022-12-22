@@ -44,12 +44,10 @@ class AdminAPI(Base):
         else:
             return None
 
-
     def change_user_password(self, user):
         # PUT /api/admin/users/:id/password
         slug = "/api/admin/users/" + str(user.id) + "/password"
         password = {"password": user.password}
-
         return self._put(slug, password, token=self.basic_token)
 
     def change_user_permissions(self, user, permissions):

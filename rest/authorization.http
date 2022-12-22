@@ -1,0 +1,28 @@
+@host=http://localhost:3000
+
+### get_api_keys
+
+GET {{host}}/api/auth/keys
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+### create_api_key
+
+POST {{host}}/api/auth/keys
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "mykey",
+  "role": "Admin",
+  "secondsToLive": 86400
+}
+
+### delete_api_key_by_id
+
+DELETE {{host}}/api/auth/keys/9
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=

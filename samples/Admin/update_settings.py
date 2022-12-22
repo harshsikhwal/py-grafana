@@ -5,6 +5,15 @@ grafana = Grafana().connect("localhost", 3000)
 bt = Token.BasicToken("admin", "admin")
 grafana.admin_api.set_token(bt)
 
-stats = grafana.admin_api.fetch_grafana_usage_report_preview()
+settings = {
+  "updates":
+  {
+    "auth.saml":
+    {
+      "enabled": "true"
+    }
+  }
+}
 
-print(stats)
+grafana.admin_api.update_settings(settings)
+

@@ -56,3 +56,11 @@ Authorization: Basic YWRtaW46YWRtaW4=
   "login":"user",
   "password":"userpassword"
 }
+
+### delete_user_by_id 
+### id is taken from above
+
+DELETE {{host}}/api/admin/users/75
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=

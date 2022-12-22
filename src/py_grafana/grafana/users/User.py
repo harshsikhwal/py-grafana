@@ -1,4 +1,4 @@
-from py_grafana.base import Base
+from py_grafana.baseAPI import Base
 # from py_grafana.grafana.organization.Organization import Organization
 # from py_grafana.grafana.team.Team import Team
 

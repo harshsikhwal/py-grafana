@@ -13,6 +13,6 @@ inf.organization = "key"
 inf.version = "Flux"
 inf.access = "proxy"
 
-grafana.datasource_api.create_datasource(inf)
+grafana.datasource_api().create_datasource(inf)
 
 print(inf.obj_to_dict())

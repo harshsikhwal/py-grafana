@@ -1,8 +1,8 @@
-from py_grafana import Grafana, BasicToken, Team
+from py_grafana import Grafana, Team, Token
 
 grafana = Grafana().connect("localhost", 3000)
 
-bt = BasicToken("admin", "admin")
+bt = Token.BasicToken("admin", "admin")
 
 grafana.user_api.set_token(bt)
 

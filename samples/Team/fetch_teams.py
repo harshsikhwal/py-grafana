@@ -1,4 +1,4 @@
-from py_grafana import Grafana, BasicToken
+from py_grafana import Grafana
 
 grafana = Grafana().connect("localhost", 3000)
 

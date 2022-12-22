@@ -56,7 +56,6 @@ class FolderAPI(Base):
 
     def create_folder(self, folder):
         slug = "/api/folders"
-
         payload = {"uid": folder.uid, "title": folder.title}
 
         folder_json = self._create(slug, payload)

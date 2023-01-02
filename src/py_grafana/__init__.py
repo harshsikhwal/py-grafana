@@ -12,3 +12,4 @@ from py_grafana.grafana.team.Team import Team
 from py_grafana.grafana.users.User import User
 import py_grafana.token as Token
 
+import py_grafana.grafana.dashboard.panel as Panel

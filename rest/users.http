@@ -14,43 +14,10 @@ Accept: application/json
 Content-Type : application/json
 Authorization: Basic YWRtaW46YWRtaW4=
 
-### update_settings [AUTH.SAML]
-
-PUT {{host}}/api/admin/settings
-Accept: application/json
-Content-Type : application/json
-Authorization: Basic YWRtaW46YWRtaW4=
-
-{
-  "updates": 
-  {
-    "auth.saml": 
-    {
-      "enabled": "true"
-    }
-  }
-}
-
-
-### fetch_grafana_stats
-
-GET {{host}}/api/admin/stats
-Accept: application/json
-Content-Type : application/json
-Authorization: Basic YWRtaW46YWRtaW4=
-
-
-### fetch_grafana_usage_report_preview
-
-GET {{host}}/api/admin/usage-report-preview
-Accept: application/json
-Content-Type : application/json
-Authorization: Basic YWRtaW46YWRtaW4=
-
 
 ### actual_user
 
-GET {{host}}/api/user HTTP/1.1
+GET {{host}}/api/user 
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic YWRtaW46YWRtaW4=

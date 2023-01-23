@@ -14,7 +14,7 @@ class ElasticSearch(DataSource):
 
     def obj_to_dict(self):
         # TODO find a better way to generate dictionaries
-        jsonData = {
+        json_data = {
             "esVersion": self.esVersion,
             "logLevelField": self.logLevelField,
             "logMessageField": self.logMessageField,
@@ -22,7 +22,7 @@ class ElasticSearch(DataSource):
             "timeField": self.timeField
         }
         elastic_dict = self.__dict__.copy()
-        elastic_dict["jsonData"] = jsonData
+        elastic_dict["jsonData"] = json_data
         del elastic_dict["esVersion"]
         del elastic_dict["logLevelField"]
         del elastic_dict["logMessageField"]

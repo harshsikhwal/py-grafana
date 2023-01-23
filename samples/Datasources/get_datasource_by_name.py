@@ -5,9 +5,6 @@ grafana = Grafana().connect("localhost", 3000)
 bt = Token.BasicToken("admin", "admin")
 grafana.datasource_api().set_token(bt)
 
+datasource = grafana.datasource_api().get_datasource_by_name("testdb")
 
-datasources = grafana.datasource_api().fetch_all_datasource()
-
-for datasource in datasources:
-
-    print(datasource.obj_to_dict())
+print(datasource.obj_to_dict())

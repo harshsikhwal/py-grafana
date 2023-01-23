@@ -1,6 +1,5 @@
 import pytest
-from py_grafana import User, Token, Organization
-import time
+from py_grafana import Token, Organization
 
 
 @pytest.mark.unittest

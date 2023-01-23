@@ -6,12 +6,14 @@
 GET {{host}}/api/dashboards/home
 Accept: application/json
 Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
 ### get dashboard with uid
 
 GET {{host}}/api/dashboards/uid/eoIfox5Vz
 Accept: application/json
 Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
 ### get dashboard tags
 
@@ -30,6 +32,7 @@ Content-Type : application/json
 POST {{host}}/api/dashboards/db
 Accept: application/json
 Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
 
 {
   "dashboard": {
@@ -41,3 +44,126 @@ Content-Type : application/json
   "message": "Made changes to xyz",
   "overwrite": false
 }
+
+
+### create dashboard
+
+POST https://google.com
+Accept: application/json
+Content-Type : application/json
+
+
+### create dashboard
+
+POST {{host}}/api/dashboards/db
+Accept: application/json
+Content-Type : application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "dashboard": {
+    "title": "new db",
+    "id": null,
+    "refresh": "5s",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": null,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+    {
+      "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 15,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "title": "Panel Title",
+        "type": "timeseries"
+      }
+    ],
+    "schemaVersion": 37,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "api new test",
+    "uid": "apinewtest",
+    "version": 1,
+    "weekStart": ""
+  }
+}
+

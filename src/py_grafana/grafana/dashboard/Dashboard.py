@@ -6,11 +6,9 @@ from py_grafana.base import BaseObj
 class Dashboard(BaseObj):
     """A class that stores the dashboard data"""
 
-    def __init__(self, title, version=0, refresh="25s"):
-        """ Dashboard initializer
-        :param title: The title of the dashboard
-        :param version: the version of the dashboard
-        :param refresh: Refresh interval: decimal with suffix: ms, s, m, h, d
+    def __init__(self):
+        """
+        Dashboard initializer
         """
         self.editable = True
         self.fiscalYearStartMonth = 0
@@ -31,11 +29,11 @@ class Dashboard(BaseObj):
         }
         self.timepicker = {}
         self.timezone = "browser"
-        self.title = title
+        self.title = None
         self.uid = None
-        self.version = version
+        self.version = None
         self.weekStart = ""
-        self.refresh = refresh
+        self.refresh = "25s"
         self.slug = ""
         self.url = ""
 
@@ -86,23 +84,25 @@ class Dashboard(BaseObj):
         for key in self.__dict__:
             if key in dashboard_dict:
                 self.__dict__[key] = dashboard_dict[key]
+        return self
+
+    def obj_to_dict(self):
+        # Serialize Panels
+        return self.__dict__
 
 
 class DashboardAPI(Base):
 
     def __init__(self, parent):
         super(DashboardAPI, self).__init__(parent)
+        self.basic_token = None
 
-    def create_dashboard(self, folder, dashboard_title: str):
-        """
-            :folder: the folder object under which you want to create a dashboard
-            :dashboard_title: the title for the new dashboard
-            :"raises: warning if not status success and exception for rest issues
-            :returns: DashboardAPI instance
-        """
+    def set_token(self, basic_token):
+        self.basic_token = basic_token
 
+    def create_dashboard(self, folder, dashboard: Dashboard):
+        # POST /api/dashboards/db
         slug = "/api/dashboards/db"
-        dashboard = Dashboard(dashboard_title)
         payload = {
             "folderUid": folder.uid,
             "dashBoard": {
@@ -114,102 +114,52 @@ class DashboardAPI(Base):
             }
         }
 
-        dashboard_json = self._create(slug, payload)
+        dashboard_json = self._create(slug, token=self.basic_token, payload=payload)
 
         if dashboard_json is not None:
 
             if dashboard_json["status"] != "success":
                 warnings.warn("Status for creation of dashboard was not success success:" + dashboard_json["status"])
 
-            dashboard.dict_to_obj(dashboard_json)
-            self.parent.folders[folder.title]._dashboards[dashboard.title] = dashboard
-
-        return self
+            return Dashboard().dict_to_obj(dashboard_json)
 
     def fetch_dashboard_by_uid(self, uid: str) -> Dashboard:
-        """
-        :uid: uid of the dashboard which you want
-        :returns: the fetched dashboard with the uid provided or None
-        :raises: exception if there is any problem with the rest call
-        """
+        # GET /api/dashboards/uid/:uid
         slug = "/api/dashboards/uid/" + uid
-        dashboard_json = self._fetch(slug)
-
-        dashboard = None
+        dashboard_json = self._fetch(slug, token=self.basic_token)
         if dashboard_json is not None and "dashboard" in dashboard_json:
-            meta_json = dashboard_json["meta"]
-            dashboard_json = dashboard_json["dashboard"]
-            dashboard = Dashboard(dashboard_json["title"])
-            dashboard.dict_to_obj(dashboard_json)
-            dashboard.dict_to_obj(meta_json)
-
-            folder_title = meta_json["folderTitle"]
-            if self.parent.folders.get(folder_title, None) is not None:
-                folder = self.parent.folders[folder_title]
-                if folder.dashboards.get(dashboard.title, None) is not None:
-                    del folder.dashboards[dashboard.title]
-                    folder.dashboards[dashboard.title] = dashboard
-
-        return dashboard
+            return Dashboard().dict_to_obj(dashboard_json["dashboard"])
 
     def fetch_home_dashboard(self):
+        # GET /api/dashboards/home
         slug = "/api/dashboards/home"
-        dashboard_json = self._fetch(slug)
+        dashboard_json = self._fetch(slug, token=self.basic_token)
 
-        dashboard = None
         if dashboard_json is not None and "dashboard" in dashboard_json:
-            meta_json = dashboard_json["meta"]
-            dashboard_json = dashboard_json["dashboard"]
-            dashboard = Dashboard(dashboard_json["title"])
-            dashboard.dict_to_obj(dashboard_json)
-            dashboard.dict_to_obj(meta_json)
-
-        return dashboard
+            return Dashboard().dict_to_obj(dashboard_json["dashboard"])
 
     def delete_dashboard(self, dashboard):
+        # DELETE /api/dashboards/uid/:uid
         slug = "/api/dashboards/uid/" + dashboard.uid
-        self._remove(slug)
+        return self._remove(slug, token=self.basic_token)
 
-        for folder_name in self.parent.folders.keys():
-            folder = self.parent.folders[folder_name]
-            if folder.dashboards.get(dashboard.title, None) is not None:
-                del folder.dashboards[dashboard.title]
+    def update_dashboard(self, folder, dashboard: Dashboard, commit_message: str, overwrite=True):
+        # POST /api/dashboards/db
 
-        return self
+        slug = "/api/dashboards/db"
+        dashboard_payload = dashboard.obj_to_dict()
+        payload = {
+            "folderUid": folder.uid,
+            "dashBoard": dashboard_payload,
+            "message": commit_message,
+            "overwrite": overwrite
+        }
 
-    def update_dashboard(self, dashboard):
-        """
-        :dashboard: the update dashboard object which we want to update in the server
-        """
-        # finding the folder of the dashboard
+        dashboard_json = self._create(slug, token=self.basic_token, payload=payload)
 
-        parent = None
-        for folder_name in self.parent.folders.keys():
-            folder = self.parent.folders[folder_name]
-            if folder.dashboards.get(dashboard.title, None):
-                parent = folder
-                break
+        if dashboard_json is not None:
 
-        if parent is not None:
-            slug = "/api/dashboards/db"
-            dashboard_payload = dashboard.__dict__
-            payload = {
-                "folderUid": parent.uid,
-                "dashBoard": dashboard_payload,
-                "message": "updating db",
-                "overwrite": True
-            }
+            if dashboard_json["status"] != "success":
+                warnings.warn("Status for update of dashboard was not success success:" + dashboard_json["status"])
 
-            dashboard_json = self._create(slug, payload)
-
-            if dashboard_json is not None:
-
-                if dashboard_json["status"] != "success":
-                    warnings.warn("Status for update of dashboard was not success success:" + dashboard_json["status"])
-
-                dashboard.dict_to_obj(dashboard_json)
-                parent.dashboards[dashboard.title] = dashboard
-
-        return self
-
-
+            return Dashboard().dict_to_obj(dashboard_json)

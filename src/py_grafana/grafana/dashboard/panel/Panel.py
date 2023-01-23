@@ -1,7 +1,5 @@
 import json
 from enum import Enum
-import Errors
-
 
 class Panel:
     """A class that stores the panel data"""
@@ -172,8 +170,8 @@ class TimeSeriesPanel(Panel):
         :param value:
         :return:
         """
-        if not isinstance(value, int):
-            raise Errors.AttributeTypeErrorException("lineInterpolation must be set to an integer")
+        # if not isinstance(value, int):
+        #     raise Errors.AttributeTypeErrorException("lineInterpolation must be set to an integer")
         self.__lineInterpolation = value
 
     lineInterpolation = property(_get_line_interpolation, _set_line_interpolation)

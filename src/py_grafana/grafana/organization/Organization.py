@@ -10,7 +10,6 @@ class Organization:
         self.name = None
         # TODO need an address class
         self.address = {}
-        # TODO add teams map and user map
 
     def dict_to_obj(self, organization_dict):
         for key in self.__dict__:

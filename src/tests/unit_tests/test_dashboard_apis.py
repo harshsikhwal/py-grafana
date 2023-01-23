@@ -1,11 +1,13 @@
 import pytest
-from py_grafana import Folder
+from py_grafana import Folder, Token
 
 db = None
 
 
 @pytest.mark.unittest
 def test_fetch_home_dashboard(grafana):
+    bt = Token.BasicToken("admin", "admin")
+    grafana.set_token_to_apis(bt)
     home_db = grafana.dashboard_api.fetch_home_dashboard()
     assert home_db.title == "Home"
     assert home_db.refresh == "25s"
@@ -17,7 +19,7 @@ def test_fetch_home_dashboard(grafana):
 @pytest.mark.unittest
 def test_create_dashboard(grafana):
     folder = Folder(title="unittest", uid="uZZZ")
-    grafana.folders_api.create_folder(folder)
+    grafana.folder_api.create_folder(folder)
     grafana.dashboard_api.create_dashboard(folder, "new_db")
     global db
     db = grafana.folders["unittest"].dashboards["new_db"]
@@ -63,11 +65,11 @@ def test_delete_dashboard(grafana):
         assert "Dashboard not found" in str(e)
     finally:
         # need to delete folder folder as well
-        grafana.folders_api.get_all_folders()
+        grafana.folder_api.get_all_folders()
         assert "unittest" in grafana.folders.keys()
-        grafana.folders_api.delete_folder("unittest")
+        grafana.folder_api.delete_folder("unittest")
         assert "unittest" not in grafana.folders.keys()
-        grafana.folders_api.get_all_folders()
+        grafana.folder_api.get_all_folders()
         assert "unittest" not in grafana.folders.keys()
 
 

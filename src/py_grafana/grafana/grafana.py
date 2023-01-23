@@ -26,6 +26,16 @@ class Grafana(Base):
         self._authentication_api_ = None
         self._dashboard_api_ = None
 
+    def set_token_to_apis(self, token):
+        self.admin_api.set_token(token)
+        self.authentication_api.set_token(token)
+        # self.dashboard_api.set_token(token)
+        self.datasource_api.set_token(token)
+        self.folder_api.set_token(token)
+        self.organization_api.set_token(token)
+        self.team_api.set_token(token)
+        self.user_api.set_token(token)
+
     @property
     def admin_api(self) -> AdminAPI:
         """
@@ -56,6 +66,7 @@ class Grafana(Base):
             self._dashboard_api_ = DashboardAPI(self)
         return self._dashboard_api_
 
+    @property
     def datasource_api(self) -> DataSourceAPI:
         """
         Create the Datasource API instance.
@@ -70,14 +81,14 @@ class Grafana(Base):
         return self._folders
 
     @property
-    def folders_api(self) -> FolderAPI:
+    def folder_api(self) -> FolderAPI:
         """
         Create the Folder API instance.
         :return: folder api
         """
         if self._folder_api_ is None:
             self._folder_api_ = FolderAPI(self)
-        return FolderAPI(self)
+        return self._folder_api_
 
     @property
     def organization_api(self) -> OrganizationAPI:

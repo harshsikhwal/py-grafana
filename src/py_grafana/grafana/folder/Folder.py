@@ -6,15 +6,15 @@ from typing import Dict
 
 class Folder(BaseObj):
     """A class that stores the Folder data."""
-    def __init__(self, title, uid=None):
+    def __init__(self):
         """
         Folder initializer
         :param title: The name of the folder. This is required
         :param uid: The uid. User has a choice to give his own uid.
         """
         self.id = None
-        self.uid = uid
-        self.title = title
+        self.uid = None
+        self.title = None
         self.url = None
         self.hasAcl = False
         self.canSave = True
@@ -25,25 +25,12 @@ class Folder(BaseObj):
         self.updatedBy = None  # admin
         self.updated = None  # time stamp
         self.version = None  # not true
-        self._dashboards = {}
-
-    @property
-    def dashboards(self) -> Dict[str, Dashboard]:
-        """
-        returns a map which consists of all the dashboards
-        map[dashboard_title]: dashboard object
-        """
-        return self._dashboards
 
     def dict_to_obj(self, folder_dict):
-        """
-        Converts a dict to object of Folder type
-        :param folder_dict: the folder json object
-        :return: deserializes the dict to object
-        """
         for key in self.__dict__:
             if key in folder_dict:
                 self.__dict__[key] = folder_dict[key]
+        return self
 
     def obj_to_dict(self):
         return self.__dict__
@@ -53,65 +40,61 @@ class FolderAPI(Base):
 
     def __init__(self, parent):
         super(FolderAPI, self).__init__(parent)
+        self.basic_token = None
 
-    def create_folder(self, folder):
+    def set_token(self, basic_token):
+        self.basic_token = basic_token
+
+    def create_folder(self, folder: Folder):
+        # POST /api/folders
         slug = "/api/folders"
         payload = {"uid": folder.uid, "title": folder.title}
 
-        folder_json = self._create(slug, payload)
+        folder_json = self._create(slug, payload, token=self.basic_token)
         if folder_json is not None:
-            folder = Folder(folder_json["title"])
-            folder.dict_to_obj(folder_json)
-            self.parent._folders[folder.title] = folder
+            return Folder().dict_to_obj(folder_json)
 
         return self
 
-    def delete_folder(self, folder_name):
-        if folder_name in self.parent.folders.keys():
-            folder = self.parent.folders[folder_name]
-            slug = "/api/folders/" + folder.uid
-            self._remove(slug)
-            del self.parent.folders[folder_name]
-
-        return self
+    def delete_folder(self, folder: Folder):
+        # DELETE /api/folders/:uid
+        slug = "/api/folders/" + folder.uid
+        return self._remove(slug, token=self.basic_token)
 
     def get_folder_by_uid(self, uid: str):
+        # GET /api/folders/:uid
+        slug = "/api/folders/" + uid
 
-        slug = "/api/folders/"
-        slug = slug + uid
+        folder_json = self._fetch(slug, token=self.basic_token)
+        if folder_json is not None:
+            return Folder().dict_to_obj(folder_json)
 
-        folder_json = self._fetch(slug)
-        updated_folder = Folder(folder_json["id"], folder_json["title"])
-        updated_folder.dict_to_obj(folder_json)
+    def get_folder_by_id(self, folder_id: int):
+        # GET /api/folders/id
+        slug = "/api/folders/id/" + str(folder_id)
 
-        # overwrite the folder
-        self.parent._folders[updated_folder.title] = updated_folder
+        folder_json = self._fetch(slug, token=self.basic_token)
+        if folder_json is not None:
+            return Folder().dict_to_obj(folder_json)
 
-        return self
+    def update_folder(self, folder: Folder):
+        # PUT /api/folders/:uid
+        slug = "/api/folders/" + folder.uid
+        payload = folder.obj_to_dict()
+        folder_json = self._put(slug, payload=payload, token=self.basic_token)
+        if folder_json is not None:
+            return Folder().dict_to_obj(folder_json)
 
-    def update_folder(self):
-        """
-        JSON Body schema:
-        uid – Provide another unique identifier than stored to change the unique identifier.
-        title – The title of the folder.
-        version – Provide the current version to be able to update the folder. Not needed if overwrite=true.
-        overwrite – Set to true if you want to overwrite existing folder with newer version.
-        :return:
-        """
-        pass
 
     def get_all_folders(self):
-        # TODO need a way to retrieve General Folder
+        # GET /api/folders
         slug = "/api/folders"
 
-        folders_json = self._fetch(slug)
+        folders_json = self._fetch(slug, token=self.basic_token)
 
-        for folder_data in folders_json:
-            folder = Folder(folder_data["title"])
-            folder.dict_to_obj(folder_data)
-
-            # TODO Get all the attributes
-            self.parent._folders[folder.title] = folder
-
-        return self
+        folders = []
+        if folders_json is not None:
+            for folder in folders_json:
+                folders.append(Folder().dict_to_obj(folder))
+        return folders
 

@@ -1,0 +1,57 @@
+@host=http://localhost:3000
+
+
+### get_all_folders
+
+GET {{host}}/api/folders
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+### create_folder
+
+POST {{host}}/api/folders
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+    "title" : "testfolder",
+    "uid" : "testfolder"
+}
+
+### get_folder_by_uid
+
+GET {{host}}/api/folders/testfolder
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+
+### get_folder_by_id
+
+GET {{host}}/api/folders/id/26
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+
+### delete_folder
+
+DELETE {{host}}/api/folders/testfolder
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+
+### update_folder
+
+PUT {{host}}/api/folders/testfolder
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+    "title" : "newfolder",
+    "version" : 1
+}

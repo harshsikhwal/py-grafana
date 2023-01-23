@@ -5,7 +5,7 @@ grafana = Grafana().connect("localhost", 3000)
 
 # create a folder f1
 folder = Folder(title="f1", uid="uzumaki")
-grafana.folders_api.create_folder(folder)
+grafana.folder_api.create_folder(folder)
 print(folder)
 
 # create a new dashboard under folder f1

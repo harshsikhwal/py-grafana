@@ -92,6 +92,9 @@ class Dashboard(BaseObj):
 
 
 class DashboardAPI(Base):
+    """
+    This API class provides APIs for operations regarding dashboards
+    """
 
     def __init__(self, parent):
         super(DashboardAPI, self).__init__(parent)

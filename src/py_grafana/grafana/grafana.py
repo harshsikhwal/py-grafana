@@ -1,5 +1,6 @@
 from py_grafana.grafana.folder.Folder import FolderAPI, Folder
 from py_grafana.grafana.dashboard.Dashboard import DashboardAPI
+from py_grafana.grafana.dashboard.panel.Panel import PanelAPI
 from py_grafana.grafana.datasource.DataSourceAPI import DataSourceAPI
 from py_grafana.grafana.users.User import UserAPI
 from py_grafana.baseAPI import Base
@@ -25,6 +26,7 @@ class Grafana(Base):
         self._folder_api_ = None
         self._authentication_api_ = None
         self._dashboard_api_ = None
+        self._panel_api_ = None
 
     def set_token_to_apis(self, token):
         self.admin_api.set_token(token)
@@ -119,6 +121,16 @@ class Grafana(Base):
         if self._user_api is None:
             self._user_api = UserAPI(self)
         return self._user_api
+
+    @property
+    def panel_api(self) -> PanelAPI:
+        """
+        Create the User API instance.
+        :return: user api
+        """
+        if self._panel_api_ is None:
+            self._panel_api_ = PanelAPI(self)
+        return self._panel_api_
 
     def connect(self, ip: str, port: int, auth=None):
         """

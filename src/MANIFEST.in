@@ -1,0 +1,3 @@
+recursive-include py_grafana *.py
+global-exclude __pycache__
+global-exclude *.pyc
